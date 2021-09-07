@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% from "_helpers.html" import render_field %}
+
+{% block title%}
+    帰村手続{{super()}}
+{% endblock %}
+
+{% block container %}
+<h1>帰村手続</h1>
+
+<!-- flashを実行する -->
+{% for message in get_flashed_messages() %}
+<li>{{message}}</li>
+{% endfor %}
+
+<form method='POST'>
+    {{render_field(form.username)}}
+    {{render_field(form.password)}}
+    {{form.submit()}}
+</form>
+    <p class="nav-item">まだABC村の住民でない方は<a href="{{url_for('module_regi.register')}}">入村手続</a>をしてください。</p>
+{% endblock %}

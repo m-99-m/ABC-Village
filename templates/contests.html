@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% from "_helpers.html" import render_field %}
+
+{% block title%}
+    役場/予定表{{super()}}
+{% endblock %}
+
+{% block container %}
+<h1>役場/予定表</h1>
+<!-- flashを実行する -->
+{% for message in get_flashed_messages() %}
+<p>※{{message}}</p>
+{% endfor %}
+
+<table id = "sortable-table" class="table table-bordered" style="width: 30%">
+  <thead>
+    <tr>
+      <th scope="col" style="width: 10%">日時</th>
+      <th scope="col" style="width: 20%">コンテスト名</th>
+        {% if current_user.username == 'm_99' %}
+            <th scope="col" style="width: 10%">処理</th>
+            <th scope="col" style="width: 20%">削除</th>
+        {% endif %}
+    </tr>
+  </thead>
+  <tbody>
+        {% for contest in contests %}
+            <tr>
+            <td>{{ contest.starttime }}</td>
+            <td>AtCoder Beginner Contest {{ contest.index }}</td>
+            {% if current_user.username == 'm_99' %}
+                <td><a href="{{url_for('module_yakuba.contest_update', index=contest.index)}}">処理</a></td>
+                <td><a href="{{url_for('module_yakuba.contest_erase', index=contest.index)}}">削除</a></td>
+            {% endif %}
+            </tr>
+        {% endfor %}
+  </tbody>
+</table>
+
+<form method='POST'>
+    {% if current_user.username == 'm_99' %}
+        {{render_field(form.index)}}
+        {{render_field(form.startDate)}}
+        {{render_field(form.startTime)}}
+        {{form.submit()}}
+    {% endif %}
+</form>
+
+<a href="{{url_for('module_yakuba.documents')}}">資料室</a>
+
+{% endblock %}

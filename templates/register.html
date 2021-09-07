@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% from "_helpers.html" import render_field %}
+
+{% block title%}
+    入村手続{{super()}}
+{% endblock %}
+
+{% block container %}
+<h1>入村手続</h1>
+
+<!-- flashを実行する -->
+{% for message in get_flashed_messages() %}
+<li>{{message}}</li>
+{% endfor %}
+
+
+<form method='POST'>
+    {{render_field(form.username)}}
+    本人確認のため、AtCoder の所属を下の文字列に変えてから次に進んでください<br>
+    {{ form.val_hash.data }}
+    {{render_field(form.password)}}
+    {{render_field(form.conf_password)}}
+    {{form.submit()}}
+    {{render_field(form.val_str)}}
+    {{render_field(form.val_hash)}}
+
+</form>
+
+{% endblock %}

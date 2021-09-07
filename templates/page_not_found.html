@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% from "_helpers.html" import render_field %}
+
+
+{% block title%}
+    {% if user %}
+        なにも無い場所{{super()}}
+    {% endif %}
+{% endblock %}
+
+{% block container %}
+    <h1>なにも無い場所</h1>
+
+<!-- flashを実行する -->
+{% for message in get_flashed_messages() %}
+<p>※{{message}}</p>
+{% endfor %}
+
+
+{% endblock %}
+}

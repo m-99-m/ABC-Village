@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% from "_helpers.html" import render_field %}
+
+{% block title%}
+    役場/資料室{{super()}}
+{% endblock %}
+
+{% block container %}
+<h1>役場/資料室</h1>
+<!-- flashを実行する -->
+{% for message in get_flashed_messages() %}
+<p>※{{message}}</p>
+{% endfor %}
+
+<table class="table table-bordered" style="width: 30%">
+  <tbody>
+    <tr>
+    <td><a href="{{url_for('module_yakuba.document', document='doc_needVP')}}">Lv UPに必要なVP一覧</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<a href="{{url_for('module_yakuba.contests')}}">予定表</a>
+
+{% endblock %}

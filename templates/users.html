@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% from "_helpers.html" import render_field %}
+
+{% block title%}
+    住宅地{{super()}}
+{% endblock %}
+
+{% block container %}
+<h1>住宅地</h1>
+
+<!-- flashを実行する -->
+{% for message in get_flashed_messages() %}
+<p>※{{message}}</p>
+{% endfor %}
+
+<table id = "sortable-table" class="table table-bordered" style="width: 30%">
+  <thead>
+    <tr>
+      <th scope="col" style="width: 10%">#</th>
+      <th scope="col" style="width: 20%">名前</th>
+      <th scope="col" style="width: 10%">Lv</th>
+      <th scope="col" style="width: 20%">VP</th>
+        {% if current_user.username == 'm_99' %}
+            <th scope="col" style="width: 20%">改竄</th>
+        {% endif %}
+    </tr>
+  </thead>
+  <tbody>
+        {% for user in users %}
+            <tr>
+            <td>{{ loop.index - 1 }}</td>
+            <td><a href="{{url_for('module_juutakuti.user',username=
+            user.username)}}">{{ user.username }}</a></td>
+            <td>{{ user.level }}</td>
+            <td>{{ user.VP }}</td>
+            {% if current_user.username == 'm_99' %}
+                <td><a href="{{url_for('module_juutakuti.user_update',username=
+            user.username)}}">改竄</a></td>
+            {% endif %}
+            </tr>
+        {% endfor %}
+  </tbody>
+</table>
+
+<form method='POST'>
+    {% if current_user.username == 'm_99' %}
+        {{render_field(form.username)}}
+        {{render_field(form.password)}}
+        {{form.submit()}}
+    {% endif %}
+</form>
+
+{% endblock %}

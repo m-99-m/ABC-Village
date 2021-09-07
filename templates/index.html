@@ -1,0 +1,11 @@
+<h1>好きなアニメ</h1>
+
+<form method='POST'>
+    {{form.name.label}} {{form.name()}}
+    <br>
+    {{form.submit()}}
+</form>
+
+{% if name %}
+<p>{{name}}さんのレート最高値は{{rate}}ですぅ</p>
+{% endif %}
