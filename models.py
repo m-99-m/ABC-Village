@@ -7,7 +7,7 @@ from AtCoder import get_username
 from app import app
 import os
 #DB_URI = 'sqlite:///test.sqlite'
-DB_URI = 'postgres://apaqwsskbylfcn:4bc4926ac0568ce60f5d9f6aae0fcbc636976d23f4a62d2e105d9985beb4503a@ec2-54-156-24-159.compute-1.amazonaws.com:5432/dp8kqnh14jgmv'
+DB_URI = 'postgresql://apaqwsskbylfcn:4bc4926ac0568ce60f5d9f6aae0fcbc636976d23f4a62d2e105d9985beb4503a@ec2-54-156-24-159.compute-1.amazonaws.com:5432/dp8kqnh14jgmv'
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["SECRET_KEY"] = "Gubuugubuusaffsaffmogeinad033"
