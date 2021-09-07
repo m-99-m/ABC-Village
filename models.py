@@ -5,8 +5,9 @@ from flask_bcrypt import generate_password_hash, check_password_hash
 from datetime import datetime
 from AtCoder import get_username
 from app import app
+import os
 #DB_URI = 'sqlite:///test.sqlite'
-DB_URI = 'postgresql://postgres:ABCvIllagetohananikatotowaretemosayakachannnihasappariwakaranainonya@localhost'
+DB_URI = os.environ.get('postgresql-curly-35233') or 'postgresql://localhost/flasknote'  #'postgresql://postgres:ABCvIllagetohananikatotowaretemosayakachannnihasappariwakaranainonya@localhost'
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["SECRET_KEY"] = "Gubuugubuusaffsaffmogeinad033"
