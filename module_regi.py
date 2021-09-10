@@ -41,11 +41,16 @@ def register():
             username = form.username.data
             password = form.password.data
             user = User(username, password)
+            f = True
             with db.session.begin(subtransactions=True):
-                db.session.add(user)
+                if form.validate():
+                    db.session.add(user)
+                else:
+                    f = False
             db.session.commit()
-            login_user(user)
-            return redirect(url_for('module_juutakuti.user', username=user.username))
+            if f:
+                login_user(user)
+                return redirect(url_for('module_juutakuti.user', username=user.username))
         else:
             flash('認証に失敗しました')
 
