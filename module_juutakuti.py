@@ -128,6 +128,8 @@ def user(username):
                                     else:
                                         flash('操作に失敗しました')
                                 db.session.commit()
+                    else:
+                        flash('操作に失敗しました')
 
             temp = Battle.select_by_to_id(current_user.id)
             for t in temp:
