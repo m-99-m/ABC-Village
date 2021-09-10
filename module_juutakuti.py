@@ -60,73 +60,74 @@ def user(username):
                         flash('LvUP!')
                     return redirect(url_for('module_juutakuti.user', username=username))
             else:
-                temp = BattleRequestForm(request.form)
-                temp.battle_id.data = temp.description.data
-                temp.type.data = max(temp.name_from.data, temp.name_to.data)
-                bt = Battle.select_by_id(temp.battle_id.data)
-                if bt:
-                    if bt.id_to == current_user.id:
-                        if 'submit0' in request.form:
-                            with db.session.begin(subtransactions=True):
-                                bt = Battle.select_by_id(temp.battle_id.data)
-                                if not bt:
-                                    flash('操作に失敗しました')
-                                elif bt.state != 0:
-                                    flash('操作に失敗しました')
-                                else:
-                                    if is_contest_running():
-                                        flash('この操作はコンテストの処理が終わるまで許されません')
-                                    elif current_user.VP < bt.bet:
-                                        flash('VPが不足しています')
-                                    else:
-                                        bt.state = 1
-                                        his = HisBet2(bt.id_to, -bt.bet, bt.id_from)
-                                        db.session.add(his)
-                                        current_user.VP -= bt.bet
-                                        flash('申請された対戦を受けました')
-                            db.session.commit()
-                        else:
-                            with db.session.begin(subtransactions=True):
-                                bt = Battle.select_by_id(temp.battle_id.data)
-                                if not bt:
-                                    flash('操作に失敗しました')
-                                elif bt.state != 0:
-                                    flash('操作に失敗しました')
-                                else:
-                                    bt.state = 2
-                                    flash('申請された対戦を断りました')
-                            db.session.commit()
-                    elif bt.id_from == current_user.id:
-                        if temp.type.data == '0':
-                            with db.session.begin(subtransactions=True):
-                                bt = Battle.select_by_id(temp.battle_id.data)
-                                if bt:
-                                    if bt.state != 0:
+                if request.method == 'POST':
+                    temp = BattleRequestForm(request.form)
+                    temp.battle_id.data = temp.description.data
+                    temp.type.data = max(temp.name_from.data, temp.name_to.data)
+                    bt = Battle.select_by_id(temp.battle_id.data)
+                    if bt:
+                        if bt.id_to == current_user.id:
+                            if 'submit0' in request.form:
+                                with db.session.begin(subtransactions=True):
+                                    bt = Battle.select_by_id(temp.battle_id.data)
+                                    if not bt:
+                                        flash('操作に失敗しました')
+                                    elif bt.state != 0:
                                         flash('操作に失敗しました')
                                     else:
-                                        his = HisCancel(bt.id_from, bt.bet, bt.id_to)
-                                        db.session.add(his)
-                                        current_user.VP += bt.bet
-                                        db.session.delete(bt)
-                                        flash('対戦をキャンセルしました')
-                                else:
-                                    flash('操作に失敗しました')
-                            db.session.commit()
-                        elif temp.type.data == '2':
-                            with db.session.begin(subtransactions=True):
-                                bt = Battle.select_by_id(temp.battle_id.data)
-                                if bt:
-                                    if bt.state != 2:
+                                        if is_contest_running():
+                                            flash('この操作はコンテストの処理が終わるまで許されません')
+                                        elif current_user.VP < bt.bet:
+                                            flash('VPが不足しています')
+                                        else:
+                                            bt.state = 1
+                                            his = HisBet2(bt.id_to, -bt.bet, bt.id_from)
+                                            db.session.add(his)
+                                            current_user.VP -= bt.bet
+                                            flash('申請された対戦を受けました')
+                                db.session.commit()
+                            else:
+                                with db.session.begin(subtransactions=True):
+                                    bt = Battle.select_by_id(temp.battle_id.data)
+                                    if not bt:
+                                        flash('操作に失敗しました')
+                                    elif bt.state != 0:
                                         flash('操作に失敗しました')
                                     else:
-                                        his = HisDenied(bt.id_from, bt.bet, bt.id_to)
-                                        db.session.add(his)
-                                        current_user.VP += bt.bet
-                                        db.session.delete(bt)
-                                        flash('VPを回収しました')
-                                else:
-                                    flash('操作に失敗しました')
-                            db.session.commit()
+                                        bt.state = 2
+                                        flash('申請された対戦を断りました')
+                                db.session.commit()
+                        elif bt.id_from == current_user.id:
+                            if temp.type.data == '0':
+                                with db.session.begin(subtransactions=True):
+                                    bt = Battle.select_by_id(temp.battle_id.data)
+                                    if bt:
+                                        if bt.state != 0:
+                                            flash('操作に失敗しました')
+                                        else:
+                                            his = HisCancel(bt.id_from, bt.bet, bt.id_to)
+                                            db.session.add(his)
+                                            current_user.VP += bt.bet
+                                            db.session.delete(bt)
+                                            flash('対戦をキャンセルしました')
+                                    else:
+                                        flash('操作に失敗しました')
+                                db.session.commit()
+                            elif temp.type.data == '2':
+                                with db.session.begin(subtransactions=True):
+                                    bt = Battle.select_by_id(temp.battle_id.data)
+                                    if bt:
+                                        if bt.state != 2:
+                                            flash('操作に失敗しました')
+                                        else:
+                                            his = HisDenied(bt.id_from, bt.bet, bt.id_to)
+                                            db.session.add(his)
+                                            current_user.VP += bt.bet
+                                            db.session.delete(bt)
+                                            flash('VPを回収しました')
+                                    else:
+                                        flash('操作に失敗しました')
+                                db.session.commit()
 
             temp = Battle.select_by_to_id(current_user.id)
             for t in temp:

@@ -1,4 +1,4 @@
-'''from flask import (
+from flask import (
     Flask, render_template, request, redirect, url_for, flash,
 )
 from flask_login import login_required, login_user, logout_user, current_user
@@ -17,6 +17,7 @@ from flask_bcrypt import generate_password_hash
 from sqlite3 import connect, Row
 
 db = connect('test.sqlite')
+'''
 #db.execute('alter table User add  special_medal int default 0 ;')
 '''
 user = User('m_99', 'password')
