@@ -21,7 +21,7 @@ class LoginForm(Form):
 
 
 class RegisterForm(Form):
-    username = StringField('名前(レート2400以上のAtCoder ID)', validators=[DataRequired(), Regexp('^[_0-9a-zA-Z]+$', message='AtCoder IDに使われない文字が含まれています')])
+    username = StringField('名前(最高レート2400以上のAtCoder ID)', validators=[DataRequired(), Regexp('^[_0-9a-zA-Z]+$', message='AtCoder IDに使われない文字が含まれています')])
     password = PasswordField('パスワード(半角英数字8～50文字)', validators=[DataRequired(), Regexp('^[_0-9a-zA-Z]+$', message='使用できない文字が含まれています'), Length(min=8, max=50, message='文字数が要求を満たしていません')])
     conf_password = PasswordField('確認用パスワード', validators=[DataRequired(), EqualTo('password', message='元のパスワードと一致しません')])
     val_str = HiddenField(label='')
