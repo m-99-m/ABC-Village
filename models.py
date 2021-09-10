@@ -100,7 +100,7 @@ class User(db.Model, UserMixin):
 
     @classmethod
     def select_all(cls):
-        return cls.query.all()
+        return cls.query.order_by(cls.id).all()
 
 
 class Contest(db.Model):
@@ -139,7 +139,7 @@ class History(db.Model):
 
     @classmethod
     def select_by_user_id(cls, user_id):
-        return cls.query.filter_by(user_id=user_id).all()
+        return cls.query.filter_by(user_id=user_id).order_by(cls.recode_time).all()
 
 
 class HisLevelUp(History):
