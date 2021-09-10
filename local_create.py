@@ -13,12 +13,11 @@ import secrets
 from flask_bcrypt import generate_password_hash
 #db.drop_all()
 #db.create_all()
-#migrate = Migrate(app, db)
 '''
 from sqlite3 import connect, Row
 
 db = connect('test.sqlite')
-db.execute('alter table User add  special_medal int default 0 ;')
+#db.execute('alter table User add  special_medal int default 0 ;')
 '''
 user = User('m_99', 'password')
 db.session.add(user)
