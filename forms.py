@@ -73,7 +73,7 @@ class UpdateContestForm(Form):
 
 
 class UpdateUserForm(Form):
-    username = StringField('名前(レート2400以上のAtCoder ID)', default='',
+    username = StringField('名前(最高レート2400以上のAtCoder ID)', default='',
                            validators=[DataRequired(), Regexp('^[_0-9a-zA-Z]+$', message='AtCoder IDに使われない文字が含まれています')])
     VP = IntegerField(validators=[DataRequired()])
     level = IntegerField(validators=[DataRequired()])
