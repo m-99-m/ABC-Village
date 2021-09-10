@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% from "_helpers.html" import render_field %}
+
+
+{% block title%}
+    {{ username }}の家/家計簿{{super()}}
+{% endblock %}
+
+{% block container %}
+    <h1>{{ username }}の家/家計簿</h1>
+
+
+<!-- flashを実行する -->
+{% for message in get_flashed_messages() %}
+<li>{{message}}</li>
+{% endfor %}
+
+<table class="table table-bordered text-center m-auto" style="width: 50%">
+  <thead>
+    <tr>
+      <th scope="col" style="width: 20%">日付</th>
+      <th scope="col" style="width: 20%">内容</th>
+      <th scope="col" style="width: 10%">VP増減</th>
+    </tr>
+  </thead>
+  <tbody>
+        {% for his in history %}
+            <tr>
+            <td>{{ his.recode_time }}</td>
+            <td>{{ his.message }}</td>
+            <td>
+                {% if his.incremental<0 %}<span style = "color:#ff0000;">{{his.incremental }}</span>
+                    {% else %}
+                {% if his.incremental>0 %}+{% endif %}{{his.incremental }}
+            {% endif %}
+
+            </td>
+            </tr>
+        {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+}

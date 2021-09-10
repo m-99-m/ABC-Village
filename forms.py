@@ -6,9 +6,10 @@ from wtforms.fields import (
 from wtforms.fields.html5 import DateField, TimeField
 from wtforms.validators import DataRequired, EqualTo, Regexp, Length
 from wtforms import ValidationError
-from models import User, Contest
+from models import User, Contest, Battle
 from AtCoder import get_highest, check_token
 from flask_bcrypt import generate_password_hash, check_password_hash
+from flask_login import current_user
 from datetime import datetime
 from flask import flash
 
@@ -64,10 +65,12 @@ class AddUserForm(Form):
         if User.select_by_username(field.data):
             raise ValidationError('その人はすでにABC村にいます')
 
+
 class UpdateContestForm(Form):
     json = FileField('jsonファイル')
     submit = SubmitField('追加')
     index = HiddenField(label='')
+
 
 class UpdateUserForm(Form):
     username = StringField('名前(レート2400以上のAtCoder ID)', default='',
@@ -81,5 +84,63 @@ class UpdateUserForm(Form):
         if User.select_by_username(field.data):
             raise ValidationError('その人はすでにABC村にいます')
 
+
 class LevelUpForm(Form):
     submit = SubmitField('')
+
+
+class BattleRequestForm(Form):
+    type = HiddenField(label='', default=-1)
+    name_from = HiddenField(label='')
+    name_to = HiddenField(label='')
+    battle_id = HiddenField(label='', default=-1)
+    description = HiddenField(label='')
+    bet = IntegerField(label='1以上の整数を入力', validators=[DataRequired(message='1以上の整数を入力してください')])
+    submit0 = SubmitField('')
+    submit1 = SubmitField('')
+
+    def set(self, id_from, id_to):
+        self.id_from = id_from
+        self.id_to = id_to
+        self.name_from.label = User.select_by_id(id_from).username
+        self.name_to.label = User.select_by_id(id_to).username
+        bt = Battle.select_by_two_id(id_from, id_to)
+        if bt:
+            self.type.data = bt.state
+            self.bet.data = bt.bet
+            self.battle_id.data = bt.id
+        else:
+            self.type.data = -1
+        s = self.type.data
+        if current_user.id == id_from:
+            if s == -1:
+                self.description.label.text = ''
+                self.submit0.label.text = '申請'
+                self.description.label.text = '未申請'
+            if s == 0:
+                self.description.label.text = '返事を待っています'
+                self.submit0.label.text = '取消'
+            if s == 1:
+                self.description.label.text = '成立しました'
+            if s == 2:
+                self.description.label.text = '断られました'
+                self.submit0.label.text = 'VP回収'
+        else:
+            if s == -1:
+                pass
+            if s == 0:
+                self.description.label = '返事を待っています'
+                self.submit0.label.text = '受ける'
+                self.submit1.label.text = '断る'
+            if s == 1:
+                self.description.label = '成立しました'
+            if s == 2:
+                pass
+        self.name_from.data = self.type.data
+        self.name_to.data = self.type.data
+        self.description.data = self.battle_id.data
+
+    def validate_bet(self, field):
+        if field.data <= 0:
+            raise ValidationError('1以上の整数を入力してください')
+

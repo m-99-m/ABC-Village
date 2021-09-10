@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% from "_helpers.html" import render_field %}
+
+{% block title%}
+    役場/資料室/青になった住民の処遇について{{super()}}
+{% endblock %}
+
+{% block container %}
+<h1>役場/資料室/青になった住民の処遇について</h1>
+{% for message in get_flashed_messages() %}
+<p>※{{message}}</p>
+{% endfor %}
+
+<p class="text-left">
+    <div class="row">
+        <div class="col-md-8 mx-auto" style="text-align:left">青色になった住民のABCの結果は一律最下位・0点として扱うものとします. </div>
+    </div>
+</p>
+
+<br>
+<a href="{{url_for('module_yakuba.documents')}}">資料室に戻る</a>
+
+{% endblock %}

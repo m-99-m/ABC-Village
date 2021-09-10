@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import requests
 from flask import flash
+from datetime import datetime
 
 def get_highest(username):
     url = "https://atcoder.jp/users/" + username + "/history/json"
@@ -34,3 +35,4 @@ def check_token(username, token):
     if txt.find(token) != -1:
         return 1
     return 0
+

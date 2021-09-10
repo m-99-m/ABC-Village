@@ -11,15 +11,15 @@
 {% for message in get_flashed_messages() %}
 <p>※{{message}}</p>
 {% endfor %}
-
-<table class="table table-bordered" style="width: 30%">
+<table class="table table-bordered text-center m-auto" style="width: 50%">
   <tbody>
-    <tr>
-    <td><a href="{{url_for('module_yakuba.document', document='doc_needVP')}}">Lv UPに必要なVP一覧</a></td>
-    </tr>
+    <tr><td><a href="{{url_for('module_yakuba.document', document='doc_needVP')}}">Lv UPに必要なVP一覧</a></td></tr>
+    <tr><td><a href="{{url_for('module_yakuba.document', document='doc_ruleABC')}}">村の掟 ABC編</a></td></tr>
+    <tr><td><a href="{{url_for('module_yakuba.document', document='doc_ruleBattle')}}">村の掟 対戦編</a></td></tr>
+    <tr><td><a href="{{url_for('module_yakuba.document', document='doc_ifBlue')}}">青になった住民の処遇について</a></td></tr>
   </tbody>
 </table>
-
+<br>
 <a href="{{url_for('module_yakuba.contests')}}">予定表</a>
 
 {% endblock %}

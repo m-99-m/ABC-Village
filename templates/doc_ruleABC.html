@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% from "_helpers.html" import render_field %}
+
+{% block title%}
+    役場/資料室/村の掟 ABC編{{super()}}
+{% endblock %}
+
+{% block container %}
+<h1>役場/資料室/村の掟 ABC編</h1>
+{% for message in get_flashed_messages() %}
+<p>※{{message}}</p>
+{% endfor %}
+
+<p class="text-left">
+    <div class="row">
+    <span class="col-md-8 mx-auto" style="text-align:left">
+        <div>ABC村の住民はABCの結果に応じて報酬が貰えます. </div>
+        <br>
+        <h5>メダル</h5>
+        <div>
+            ABCで全完すると全完メダルが, 優勝すると優勝メダルが1枚貰えます.
+        </div>
+        <br>
+        <h5>VP</h5>
+        <div>ABCで貰えるVPは, 以下に示す基本報酬とメダルボーナスの合計です.</div><br>
+        <p class="text-center">[基本報酬] = [得点]</p>
+        <p class="text-center">[メダルボーナス] = [得点] × [これまで貰ったメダルの枚数] / 100</p><br>
+        <div>ここで, これまで貰ったメダルの枚数はそのABCで貰えるものを含みます. たとえば, メダルを1枚も持っていなかった人が全完した(かつ優勝でなかった)場合, その人が貰えるVPは3232です.</div>
+        <br>
+        <h5>注意点</h5>
+        <li>ABCで報酬を貰えるのは, そのABCが始まるより前にABC村の住民になった人のみです.</li>
+        <li>AtCoder以外の企業が主催やスポンサーとなっているABCは対象としません.</li>
+        <li>参加をしなかったABCについては最下位・0点として扱われます.</li>
+    </span>
+    </div>
+</p>
+
+<br>
+<a href="{{url_for('module_yakuba.documents')}}">資料室に戻る</a>
+
+{% endblock %}

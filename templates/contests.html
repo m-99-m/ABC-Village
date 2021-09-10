@@ -7,12 +7,10 @@
 
 {% block container %}
 <h1>役場/予定表</h1>
-<!-- flashを実行する -->
 {% for message in get_flashed_messages() %}
 <p>※{{message}}</p>
 {% endfor %}
-
-<table id = "sortable-table" class="table table-bordered" style="width: 30%">
+<table class="table table-bordered text-center m-auto" style="width: 50%">
   <thead>
     <tr>
       <th scope="col" style="width: 10%">日時</th>
@@ -27,7 +25,7 @@
         {% for contest in contests %}
             <tr>
             <td>{{ contest.starttime }}</td>
-            <td>AtCoder Beginner Contest {{ contest.index }}</td>
+                <td><a href={{ "https://atcoder.jp/contests/abc" + contest.index|string }}>AtCoder Beginner Contest {{ contest.index }}</a></td>
             {% if current_user.username == 'm_99' %}
                 <td><a href="{{url_for('module_yakuba.contest_update', index=contest.index)}}">処理</a></td>
                 <td><a href="{{url_for('module_yakuba.contest_erase', index=contest.index)}}">削除</a></td>
@@ -45,7 +43,7 @@
         {{form.submit()}}
     {% endif %}
 </form>
-
+<br>
 <a href="{{url_for('module_yakuba.documents')}}">資料室</a>
 
 {% endblock %}

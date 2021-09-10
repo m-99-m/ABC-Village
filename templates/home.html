@@ -5,10 +5,13 @@
 {% endblock %}
 
 {% block container %}
-<h1>ABC村</h1>
+<h1>入口</h1>
+<br>
+    <div>ここに書く文言募集中</div>
 
-ABCに出てポイントを溜めよう<br>
-    目指せLv 99
-
+{% if current_user.is_authenticated %}
+    <br>
+    <div><a href="{{url_for('module_regi.logout')}}">村を出る </a></div>
+{% endif %}
 
 {% endblock %}
