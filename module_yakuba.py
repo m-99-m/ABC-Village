@@ -82,7 +82,6 @@ def contest_update(index):
                         db.session.commit()
 
                 with db.session.begin(subtransactions=True):
-                    db.session.delete(contest)
                     for k, v in ranks.items():
                         user = User.select_by_username(k)
                         if v == 1:
@@ -118,6 +117,7 @@ def contest_update(index):
                             db.session.add(his)
                             n1.VP += b.bet*2
                         db.session.delete(b)
+                    db.session.delete(contest)
 
                 db.session.commit()
 
