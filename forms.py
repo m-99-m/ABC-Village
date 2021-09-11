@@ -144,3 +144,8 @@ class BattleRequestForm(Form):
         if field.data <= 0:
             raise ValidationError('1以上の整数を入力してください')
 
+
+class PostForm(Form):
+    message = TextAreaField('文章(1000文字以内)', validators=[DataRequired(message='中身の無い投稿はできません'), Length(max=1000, message='1000文字を超過しています')], render_kw={'rows': 5, 'cols': 80})
+    submit = SubmitField('投稿')
+

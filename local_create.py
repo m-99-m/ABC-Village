@@ -11,7 +11,7 @@ from forms import (
 from flask_migrate import Migrate
 import secrets
 from flask_bcrypt import generate_password_hash
-db.drop_all()
+#db.drop_all()
 db.create_all()
 '''
 from sqlite3 import connect, Row

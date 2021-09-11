@@ -281,3 +281,22 @@ class Battle(db.Model):
     @classmethod
     def select_all(cls):
         return cls.query.all()
+
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer)
+    post_time = db.Column(db.DateTime)
+    message = db.Column(db.String(1005))
+    level = db.Column(db.Integer)
+    def __init__(self, user_id, message, level):
+        self.user_id = user_id
+        self.message = message
+        self.level = level
+        self.post_time = datetime.now()
+        self.post_time = self.post_time \
+            .replace(microsecond=0)
+
+    @classmethod
+    def select_all(cls):
+        return cls.query.order_by(cls.id).all()
