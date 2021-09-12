@@ -21,6 +21,9 @@
       <th scope="col" style="width: 20%">日付</th>
       <th scope="col" style="width: 20%">内容</th>
       <th scope="col" style="width: 10%">VP増減</th>
+        {% if username == current_user.username %}
+      <th scope="col" style="width: 10%">ツイート</th>
+        {% endif %}
     </tr>
   </thead>
   <tbody>
@@ -29,12 +32,23 @@
             <td>{{ his.recode_time }}</td>
             <td>{{ his.message }}</td>
             <td>
-                {% if his.incremental<0 %}<span style = "color:#ff0000;">{{his.incremental }}</span>
-                    {% else %}
+            {% if his.incremental<0 %}<span style = "color:#ff0000;">{{his.incremental}}</span>
+            {% else %}
                 {% if his.incremental>0 %}+{% endif %}{{his.incremental }}
             {% endif %}
-
             </td>
+            {% if username == current_user.username %}
+            <td>
+            {% if his.incremental<=0 %}
+                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+   class="twitter-share-button" data-text="{{ his.message}} ({{his.incremental}})" data-hashtags="ABC村" data-lang="ja" data-show-count="false">Tweet</a>
+            {% else %}
+                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+   class="twitter-share-button" data-text="{{ his.message}} (&#43;{{his.incremental}})" data-hashtags="ABC村" data-lang="ja" data-show-count="false">Tweet</a>
+            {% endif %}
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </td>
+            {% endif %}
             </tr>
         {% endfor %}
   </tbody>
