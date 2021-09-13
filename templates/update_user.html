@@ -8,10 +8,6 @@
 {% block container %}
 <h1>ユーザ改竄</h1>
 
-<!-- flashを実行する -->
-{% for message in get_flashed_messages() %}
-<p>※{{message}}</p>
-{% endfor %}
 
 <form method="POST">
     {% if current_user.username == 'm_99' %}

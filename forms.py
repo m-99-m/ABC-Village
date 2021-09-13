@@ -40,6 +40,23 @@ class RegisterForm(Form):
             return check_token(self.username.data, self.val_hash.data)
         return 0
 
+class ChangeForm(Form):
+    username = StringField('住民の名前', validators=[DataRequired(), Regexp('^[_0-9a-zA-Z]+$', message='AtCoder IDに使われない文字が含まれています')])
+    password = PasswordField('パスワード(半角英数字8～50文字)', validators=[DataRequired(), Regexp('^[_0-9a-zA-Z]+$', message='使用できない文字が含まれています'), Length(min=8, max=50, message='文字数が要求を満たしていません')])
+    conf_password = PasswordField('確認用パスワード', validators=[DataRequired(), EqualTo('password', message='元のパスワードと一致しません')])
+    val_str = HiddenField(label='')
+    val_hash = HiddenField(label='')
+    submit = SubmitField('変更')
+
+    def validate_username(self, field):
+        if not User.select_by_username(field.data):
+            raise ValidationError('その人はABC村にいません')
+
+    def check_token(self):
+        if check_password_hash(self.val_hash.data, self.val_str.data):
+            return check_token(self.username.data, self.val_hash.data)
+        return 0
+
 class AddContestForm(Form):
     index = IntegerField('番号', validators=[DataRequired()])
     startDate = DateField('開始日')

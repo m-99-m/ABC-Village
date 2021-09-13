@@ -64,6 +64,9 @@
         <div class="container mx-auto w-75 pt-2 pb-4 mb-4" style="background-color: #FFFFFF;">
             <div class="row">
                 <span style="text-align:center">
+                {% for message in get_flashed_messages() %}
+                    <p>※{{message}}</p>
+                {% endfor %}
                 {% block container %}
 
                 {% endblock %}

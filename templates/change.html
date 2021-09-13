@@ -2,11 +2,14 @@
 {% from "_helpers.html" import render_field %}
 
 {% block title%}
-    入村手続{{super()}}
+    変更手続{{super()}}
 {% endblock %}
 
 {% block container %}
-<h1>入村手続</h1>
+<h1>変更手続</h1>
+
+
+
 
 <form method='POST'>
     {{render_field(form.username)}}

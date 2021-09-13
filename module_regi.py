@@ -4,7 +4,7 @@ from flask import (
 from flask_login import login_required, login_user, logout_user, current_user
 from models import db, User
 from forms import (
-    LoginForm, RegisterForm
+    LoginForm, RegisterForm, ChangeForm
 )
 import secrets
 from flask_bcrypt import generate_password_hash
@@ -55,6 +55,31 @@ def register():
             flash('認証に失敗しました')
 
     return render_template('register.html', form=form)
+
+@module_regi.route('/change', methods=['GET', 'POST'])
+def change():
+    form = ChangeForm(request.form)
+    if form.val_str.data == '':
+        form.val_str.data = secrets.token_hex(255)
+        form.val_hash.data = generate_password_hash(form.val_str.data).decode('utf-8')
+
+    if request.method == 'POST' and form.validate():
+        if form.check_token() == 1:
+            f = True
+            with db.session.begin(subtransactions=True):
+                user = User.select_by_username(form.username.data)
+                if user and form.validate():
+                    user.reset_password(form.password.data)
+                else:
+                    f = False
+            db.session.commit()
+            if f:
+                login_user(user)
+                return redirect(url_for('module_juutakuti.user', username=user.username))
+        else:
+            flash('認証に失敗しました')
+
+    return render_template('change.html', form=form)
 
 @module_regi.route('/logout')
 @login_required

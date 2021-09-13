@@ -7,10 +7,7 @@
 
 {% block container %}
 <h1>役場/資料室</h1>
-<!-- flashを実行する -->
-{% for message in get_flashed_messages() %}
-<p>※{{message}}</p>
-{% endfor %}
+
 <table class="table table-bordered text-center m-auto" style="width: 50%">
   <tbody>
     <tr><td><a href="{{url_for('module_yakuba.document', document='doc_needVP')}}">Lv UPに必要なVP一覧</a></td></tr>

@@ -17,10 +17,7 @@
         <h1>{{ username }}はABC村の住民ではないようだ……</h1>
     {% endif %}
 
-<!-- flashを実行する -->
-{% for message in get_flashed_messages() %}
-<li>{{message}}</li>
-{% endfor %}
+
 
 {% if user %}
     <div>Lv: {{ user.level }}
