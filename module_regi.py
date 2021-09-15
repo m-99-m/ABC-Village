@@ -19,7 +19,6 @@ def login():
         password = form.password.data
         user = User.select_by_username(username)
         if user and user.check_password(password):
-            """ ユーザに対してログイン処理を施す """
             login_user(user)
             return redirect(url_for('module_juutakuti.user', username=user.username))
         elif user:
