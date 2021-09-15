@@ -6,12 +6,9 @@ from AtCoder import get_username
 from app import app
 import os
 DB_URI = os.getenv("DB_URI")
-
-#DB_URI = 'postgresql://lwyhxoijhformz:bb2f1919248cd6cee1e6a82295ff3b6f8fa450b0150760bcfeec35785f261fb9@ec2-44-195-16-34.compute-1.amazonaws.com:5432/dduln92gpjjt49'
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
-#app.config["SECRET_KEY"] = "Gubuugubuusaffsaffmogeinad033"
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
