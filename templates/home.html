@@ -8,6 +8,9 @@
 <h1>入口</h1>
 <br>
     <div>ここに書く文言募集中</div>
+{% if current_user.username == "m_99" %}
+    <div>デバッグメッせージだぴょん</div>
+{% endif %}
 
 {% if current_user.is_authenticated %}
     <br>
