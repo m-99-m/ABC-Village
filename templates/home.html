@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title%}
+    入口{{super()}}
+{% endblock %}
+
+{% block container %}
+<h1>入口</h1>
+<br>
+    <div>ここに書く文言募集中</div>
+
+{% if current_user.is_authenticated %}
+    <br>
+    <div><a href="{{url_for('module_regi.logout')}}">村を出る </a></div>
+{% endif %}
+
+{% endblock %}

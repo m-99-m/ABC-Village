@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% from "_helpers.html" import render_field %}
+
+{% block title%}
+    住宅地{{super()}}
+{% endblock %}
+
+{% block container %}
+<h1>住宅地</h1>
+
+
+<table class="table table-bordered text-center m-auto" style="width: 50%">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">名前</th>
+      <th scope="col">Lv</th>
+      <th scope="col">VP</th>
+        {% if current_user.username == 'm_99' %}
+            <th scope="col">改竄</th>
+        {% endif %}
+    </tr>
+  </thead>
+  <tbody>
+        {% for user in users %}
+            <tr>
+            <td>{{ loop.index - 1 }}</td>
+            <td><a href="{{url_for('module_juutakuti.user',username=
+            user.username)}}">{{ user.username }}</a></td>
+            <td>{{ user.level }}</td>
+            <td>{{ user.VP }}</td>
+            {% if current_user.username == 'm_99' %}
+                <td><a href="{{url_for('module_juutakuti.user_update',username=
+            user.username)}}">改竄</a></td>
+            {% endif %}
+            </tr>
+        {% endfor %}
+  </tbody>
+</table>
+
+{% if current_user.username == 'm_99' %}
+    <div><a href="{{url_for('module_juutakuti.battles')}}">対戦一覧</a></div>
+{% endif %}
+
+<form method='POST'>
+    {% if current_user.username == 'm_99' %}
+        {{render_field(form.username)}}
+        {{render_field(form.password)}}
+        {{form.submit()}}
+    {% endif %}
+</form>
+
+
+
+{% endblock %}

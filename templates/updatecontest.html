@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% from "_helpers.html" import render_field %}
+
+{% block title%}
+    コンテスト処理{{super()}}
+{% endblock %}
+
+{% block container %}
+<h1>コンテスト処理</h1>
+
+
+<form method="POST" enctype="multipart/form-data">
+    {% if current_user.username == 'm_99' %}
+        {{render_field(form.index)}}
+        {{render_field(form.json)}}
+        {{form.submit()}}
+    {% endif %}
+</form>
+
+
+{% endblock %}

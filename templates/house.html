@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% from "_helpers.html" import render_field %}
+
+
+{% block title%}
+    {% if user %}
+        {{ user.username }}の家{{super()}}
+    {% else %}
+        空き家{{super()}}
+    {% endif %}
+{% endblock %}
+
+{% block container %}
+    {% if user %}
+        <h1>{{ user.username }}の家</h1>
+    {% else %}
+        <h1>{{ username }}はABC村の住民ではないようだ……</h1>
+    {% endif %}
+
+
+
+{% if user %}
+    <div>Lv: {{ user.level }}
+        {% if username == current_user.username %}
+        <form method='POST'>{{form0.submit()}}</form>
+        {%  endif %}</div>
+    <div>VP: {{ user.VP }}</div>
+    <div>全完メダル: {{ user.complete_medal }}</div>
+    <div>優勝メダル: {{ user.champion_medal }}</div>
+    <div>登録日時: {{ user.register_time }}</div>
+    {% if form1.type.data!=-2 %}
+        <h5>対戦を申請</h5>
+        <table class="table table-bordered text-center m-auto" style="width: 50%">
+          <thead>
+            <tr>
+                <th scope="col" style="width: 10%">相手</th>
+                <th scope="col" style="width: 20%">{% if form1.type.data == -1 %}ベットするVP{% else %}ベットしたVP{% endif %}</th>
+                <th scope="col" style="width: 20%">状態</th>
+                <th scope="col" style="width: 15%">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr>
+                  <form method='POST'>
+                  <td>{{ render_field(form1.name_to) }}</td>
+                  {% if form1.type.data==-1 %}
+                      <td>{{render_field(form1.bet)}}</td>
+                  {% else %}
+                      <td><strong>{{ form1.bet.data }}</strong></td>
+                  {% endif %}
+                      <td>{{render_field(form1.description)}}</td>
+                  <td>
+                    {% if form1.type.data!=1 %}
+                        {{form1.submit0()}}
+                    {% endif %}
+                  </td>
+                </form>
+                </tr>
+
+          </tbody>
+        </table>
+    {% endif %}
+    {% if username == current_user.username %}
+        <h5>申請された対戦</h5>
+        <table class="table table-bordered text-center mx-auto" style="width: 50%">
+          <thead>
+            <tr>
+              <th scope="col" style="width: 10%">相手</th>
+              <th scope="col" style="width: 20%">ベットされたVP</th>
+              <th scope="col" style="width: 20%">状態</th>
+              <th scope="col" style="width: 15%">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+                {% for form in forms0 %}
+                    {% if form.type.data!=2 %}
+                        <form method='POST'>
+                        <tr>
+                        <td>{{ render_field(form.name_from) }}</td>
+                        <td><strong>{{ form.bet.data }}</strong></td>
+                        <td>{{ render_field(form.description) }}</td>
+
+                        {% if form.type.data==0 %}
+
+                            <td>
+                                {{ form.submit0() }}{{ form.submit1() }}
+                            </td>
+
+                        {% else %}
+                            <td>
+
+                            </td>
+                        {% endif %}
+                        </tr>
+                        </form>
+
+
+                    {% endif %}
+                {% endfor %}
+          </tbody>
+        </table>
+        <table class="table table-bordered text-center mx-auto my-0" style="width: 50%">
+        <h5>申請した対戦</h5>
+        <thead>
+        <tr><th scope="col" style="width: 10%">相手</th>
+          <th scope="col" style="width: 20%">{% if form1.type.data == -1 %}ベットするVP{% else %}ベットしたVP{% endif %}
+          </th>
+          <th scope="col" style="width: 20%">状態</th>
+          <th scope="col" style="width: 15%">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for form in forms1 %}
+            <tr>
+                <form method='POST'>
+                <td>{{ render_field(form.name_to) }}</td>
+                {% if form.type.data==-1 %}
+                    <td>{{render_field(form.bet)}}</td>
+                {% else %}
+                    <td><strong>{{ form.bet.data }}</strong></td>
+                {% endif %}
+                    <td>{{render_field(form.description)}}</td>
+                <td>
+                {% if form.type.data!=1 %}
+                    {{form.submit0()}}
+                {% endif %}
+                </td>
+            </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+{% endif %}
+<br>
+<div><a href="{{url_for('module_juutakuti.history', username=username)}}">家計簿</a></div>
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% from "_helpers.html" import render_field %}
+
+{% block title%}
+    対戦一覧{{super()}}
+{% endblock %}
+
+{% block container %}
+<h1>対戦一覧</h1>
+<table class="table table-bordered text-center m-auto" style="width: 50%">
+  <thead>
+    <tr>
+      <th scope="col" style="width: 10%">id</th>
+      <th scope="col" style="width: 20%">from</th>
+        <th scope="col" style="width: 10%">to</th>
+        <th scope="col" style="width: 10%">bet</th>
+      <th scope="col" style="width: 20%">state</th>
+        <th scope="col" style="width: 20%">削除</th>
+    </tr>
+  </thead>
+  <tbody>
+        {% for b in battles %}
+            <tr>
+            <td>{{ b.id }}</td>
+            <td>{{ b.fr }}</td>
+            <td>{{ b.to }}</td>
+            <td>{{ b.bet }}</td>
+            <td>{{ b.state }}</td>
+            {% if current_user.username == 'm_99' %}
+                <td><a href="{{ url_for('module_juutakuti.battle_delete', id=b.id, state=b.state)}}">削除</a></td>
+            {% endif %}
+            </tr>
+        {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

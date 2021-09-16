@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% from "_helpers.html" import render_field %}
+
+{% block title%}
+    広場{{super()}}
+{% endblock %}
+
+{% block container %}
+<h1>広場</h1>
+
+
+
+<p class="text-left">
+    <div class="row">
+    <span class="col-md-8 mx-auto" style="text-align:left">
+        {% for post in posts %}
+            <div>{{ post.id }} : <a href="{{url_for('module_juutakuti.user',username=
+            post.username)}}">{{post.username}}
+                (Lv: {{ post.level}})</a> : {{ post.post_time }}</div>
+            <div>
+                {% for m in post.messages %}
+                    {{ m }}
+                    <br>
+                    {% endfor %}
+            </div>
+        {% endfor %}
+        {% if current_user.is_authenticated %}
+            <br>
+            <form method='POST'>
+                {{render_field(form.message)}}
+                {{form.submit()}}
+            </form>
+        {% endif %}
+        </span>
+    </div>
+</p>
+{% endblock %}

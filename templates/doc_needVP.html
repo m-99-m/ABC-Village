@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% from "_helpers.html" import render_field %}
+
+{% block title%}
+    役場/資料室/Lv UPに必要なVP一覧{{super()}}
+{% endblock %}
+
+{% block container %}
+<h1>役場/資料室/Lv UPに必要なVP一覧</h1>
+
+<table class="table table-bordered text-center m-auto" style="width: 28%">
+  <thead>
+    <tr>
+      <th scope="col" style="width: 8%">次のLv</th>
+      <th scope="col" style="width: 10%">必要なVP</th>
+      <th scope="col" style="width: 10%">累積和</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+        {% for v in value %}
+            <tr>
+            <td>{{ loop.index}}</td>
+            <td>{{ v[0] }}</td>
+            <td>{{ v[1] }}</td>
+            </tr>
+        {% endfor %}
+    </tr>
+  </tbody>
+</table>
+<br>
+<a href="{{url_for('module_yakuba.documents')}}">資料室に戻る</a>
+
+{% endblock %}

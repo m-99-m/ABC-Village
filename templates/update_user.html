@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% from "_helpers.html" import render_field %}
+
+{% block title%}
+    ユーザ改竄{{super()}}
+{% endblock %}
+
+{% block container %}
+<h1>ユーザ改竄</h1>
+
+
+<form method="POST">
+    {% if current_user.username == 'm_99' %}
+        {{render_field(form.username)}}
+        {{render_field(form.VP)}}
+        {{render_field(form.level)}}
+        {{render_field(form.register_time)}}
+        {{form.submit()}}
+    {% endif %}
+</form>
+
+
+{% endblock %}
